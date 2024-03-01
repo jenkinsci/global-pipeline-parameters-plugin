@@ -2,7 +2,7 @@
 
 ## Introduction
 
-TODO Describe what your plugin does here
+This plugin allow use stored values that are common for all jobs and builds in JENKINS.
 
 ## Getting started
 
