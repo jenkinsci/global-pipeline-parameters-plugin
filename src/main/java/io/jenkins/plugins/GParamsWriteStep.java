@@ -1,32 +1,26 @@
 package io.jenkins.plugins;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-import hudson.EnvVars;
 import hudson.Extension;
-import hudson.FilePath;
-import hudson.Launcher;
-import hudson.model.AbstractProject;
-import hudson.model.Run;
 import hudson.model.TaskListener;
-import hudson.tasks.BuildStepDescriptor;
-import hudson.tasks.Builder;
-import jenkins.tasks.SimpleBuildStep;
-import org.jenkinsci.Symbol;
-import org.kohsuke.stapler.DataBoundConstructor;
-
-import javax.imageio.IIOException;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Set;
+import org.jenkinsci.plugins.workflow.steps.*;
+import org.kohsuke.stapler.DataBoundConstructor;
+import org.springframework.lang.NonNull;
 
 /**
- * Write value in global map with key 'name'
+ * Write global parameter that is can be read any Jobs in JENKINS with by key 'name'
  */
-public class GParamsWriteStep extends Builder implements SimpleBuildStep {
+public class GParamsWriteStep extends Step {
 
-    private final String name;
-    private final String value;
-    static final String GParamDirectoryName = "gparams/";
+    private String name;
+    private String value;
 
     @DataBoundConstructor
     public GParamsWriteStep(String name, String value) {
@@ -34,45 +28,79 @@ public class GParamsWriteStep extends Builder implements SimpleBuildStep {
         this.value = value;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
     @Override
-    public void perform(
-            @NonNull Run<?, ?> run,
-            @NonNull FilePath workspace,
-            @NonNull EnvVars env,
-            @NonNull Launcher launcher,
-            @NonNull TaskListener listener)
-            throws InterruptedException, IOException {
+    public StepExecution start(StepContext context) throws Exception {
+        return new Execution(this, context);
+    }
 
-        // Each value is stored in file with name 'name' in directory GParamsDirectoryName.
-        // Create this directory, if it is not exist.
-        String filePath = GParamDirectoryName + name;
-        File file = new File(filePath);
-        File parent = file.getParentFile();
+    @Extension
+    public static final class DescriptorImpl extends StepDescriptor {
 
-        if(parent != null && !parent.exists() && !parent.mkdirs()) {
-            listener.error("Can't create directory " + parent.getAbsolutePath());
-            throw new IOException("GParams directory create error.");
+        @Override
+        public String getFunctionName() {
+            return "gpwrite";
         }
 
-        boolean fileCreatedSuccessfully = file.createNewFile();
-        if(!fileCreatedSuccessfully) {
-            listener.error("GParams create new file error. Path: " + file.getAbsolutePath());
-            throw new IIOException("GParams create new file error. Path: " + file.getAbsolutePath());
+        @NonNull
+        @Override
+        public String getDisplayName() {
+            return "Write global parameter";
         }
 
-        // Write value to file
-        try(PrintWriter writer = new PrintWriter(file)) {
-            writer.write(value);
+        @Override
+        public Set<? extends Class<?>> getRequiredContext() {
+            return Collections.singleton(TaskListener.class);
         }
     }
 
-    @Symbol("gpwrite")
-    @Extension
-    public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
+    private static class Execution extends SynchronousStepExecution<Void> {
+
+        private final transient GParamsWriteStep step;
+
+        public Execution(GParamsWriteStep step, StepContext context) {
+            super(context);
+            this.step = step;
+        }
 
         @Override
-        public boolean isApplicable(Class<? extends AbstractProject> jobType) {
-            return true;
+        protected Void run() throws Exception {
+            String name = step.getName();
+            String value = step.getValue();
+            PrintStream logger =
+                    Objects.requireNonNull(getContext().get(TaskListener.class)).getLogger();
+
+            // Write value in file with name 'name'. Create directory, if it is not
+            // exist.
+            String filePath = Parameters.GParamDirectoryName + name;
+
+            File file = new File(filePath);
+            File parent = file.getParentFile();
+
+            if (parent != null && !parent.exists() && !parent.mkdirs()) {
+                throw new IOException("Create directory " + parent.getAbsolutePath() + " error.");
+            }
+
+            if (!file.exists() && !file.createNewFile()) {
+                throw new IOException("Create file " + file.getAbsolutePath() + " error");
+            }
+
+            logger.println("Create file " + file.getAbsolutePath());
+
+            try (PrintWriter writer = new PrintWriter(file, StandardCharsets.UTF_8)) {
+                writer.write(value);
+            }
+
+            return null;
         }
+
+        private static final long serialVersionUID = 1L;
     }
 }
