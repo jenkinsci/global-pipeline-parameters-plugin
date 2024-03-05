@@ -19,8 +19,8 @@ import org.springframework.lang.NonNull;
  */
 public class GParamsWriteStep extends Step {
 
-    private String name;
-    private String value;
+    private final String name;
+    private final String value;
 
     @DataBoundConstructor
     public GParamsWriteStep(String name, String value) {
