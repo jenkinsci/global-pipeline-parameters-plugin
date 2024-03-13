@@ -73,7 +73,7 @@ public class GParamsReadStep extends Step {
             try {
                 File file = new File(filePath);
                 try (FileInputStream fileInputStream = new FileInputStream(file);
-                        FileLock lock = fileInputStream.getChannel().lock()) {
+                        FileLock lock = fileInputStream.getChannel().lock(0L, Long.MAX_VALUE, true)) {
                     return new String(fileInputStream.readAllBytes(), StandardCharsets.UTF_8);
                 }
             } catch (IOException e) {
