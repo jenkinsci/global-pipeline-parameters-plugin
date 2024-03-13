@@ -4,8 +4,10 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.model.TaskListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.nio.channels.FileLock;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Set;
 import org.jenkinsci.plugins.workflow.steps.*;
@@ -62,15 +64,18 @@ public class GParamsReadStep extends Step {
         }
 
         @Override
+        @SuppressWarnings("unused")
         protected String run() throws Exception {
             // Read value from file with name 'name' and return its content.
             String name = step.getName();
-
             String filePath = Parameters.GParamDirectoryName + name;
 
             try {
                 File file = new File(filePath);
-                return Files.readString(file.toPath());
+                try (FileInputStream fileInputStream = new FileInputStream(file);
+                        FileLock lock = fileInputStream.getChannel().lock()) {
+                    return new String(fileInputStream.readAllBytes(), StandardCharsets.UTF_8);
+                }
             } catch (IOException e) {
                 throw new IOException("gparam parameter " + name + " not exist");
             }

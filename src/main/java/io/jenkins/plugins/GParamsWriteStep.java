@@ -2,10 +2,8 @@ package io.jenkins.plugins;
 
 import hudson.Extension;
 import hudson.model.TaskListener;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.channels.FileLock;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Objects;
@@ -94,8 +92,10 @@ public class GParamsWriteStep extends Step {
 
             logger.println("Create file " + file.getAbsolutePath());
 
-            try (PrintWriter writer = new PrintWriter(file, StandardCharsets.UTF_8)) {
-                writer.write(value);
+            try (FileOutputStream out = new FileOutputStream(file);
+                    @SuppressWarnings("unused")
+                            FileLock lock = out.getChannel().lock()) {
+                out.write(value.getBytes(StandardCharsets.UTF_8));
             }
 
             return null;
