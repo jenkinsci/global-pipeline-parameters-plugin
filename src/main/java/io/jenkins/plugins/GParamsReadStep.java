@@ -3,6 +3,7 @@ package io.jenkins.plugins;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.model.TaskListener;
+import io.jenkins.cli.shaded.org.apache.commons.lang.StringUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,6 +23,9 @@ public class GParamsReadStep extends Step {
 
     @DataBoundConstructor
     public GParamsReadStep(String name) {
+        if (!StringUtils.isAlphanumeric(name)) {
+            throw new IllegalArgumentException("The '" + name + "' is not a valid gparams variable name");
+        }
         this.name = name;
     }
 

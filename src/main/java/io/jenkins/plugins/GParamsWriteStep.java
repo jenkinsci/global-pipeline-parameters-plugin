@@ -2,15 +2,20 @@ package io.jenkins.plugins;
 
 import hudson.Extension;
 import hudson.model.TaskListener;
-import java.io.*;
+import io.jenkins.cli.shaded.org.apache.commons.lang.StringUtils;
+import org.jenkinsci.plugins.workflow.steps.*;
+import org.kohsuke.stapler.DataBoundConstructor;
+import org.springframework.lang.NonNull;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.channels.FileLock;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
-import org.jenkinsci.plugins.workflow.steps.*;
-import org.kohsuke.stapler.DataBoundConstructor;
-import org.springframework.lang.NonNull;
 
 /**
  * Write global parameter that is can be read any Jobs in JENKINS with by key 'name'
@@ -22,6 +27,9 @@ public class GParamsWriteStep extends Step {
 
     @DataBoundConstructor
     public GParamsWriteStep(String name, String value) {
+        if (!StringUtils.isAlphanumeric(name)) {
+            throw new IllegalArgumentException("The '" + name + "' is not a valid gparams variable name");
+        }
         this.name = name;
         this.value = value;
     }
