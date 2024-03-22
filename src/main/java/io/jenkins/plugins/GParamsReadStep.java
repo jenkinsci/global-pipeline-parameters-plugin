@@ -23,7 +23,7 @@ public class GParamsReadStep extends Step {
 
     @DataBoundConstructor
     public GParamsReadStep(String name) {
-        if (!StringUtils.isAlphanumeric(name)) {
+        if (!StringUtils.isAlphanumeric(name) || name.length() > Parameters.NameLen) {
             throw new IllegalArgumentException("The '" + name + "' is not a valid gparams variable name");
         }
         this.name = name;
