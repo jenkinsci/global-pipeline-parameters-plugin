@@ -3,8 +3,8 @@
 ## Introduction
 
 This plugin allow any Pipeline Jobs store and read values common for all jobs. It add 2 steps in pipeline:
-- gread(name, value)
-- gwrite(name)
+- gpread(name, value)
+- gpwrite(name)
 
 ## Getting started
 
