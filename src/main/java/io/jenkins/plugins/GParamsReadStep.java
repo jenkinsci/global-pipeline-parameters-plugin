@@ -72,6 +72,10 @@ public class GParamsReadStep extends Step {
         protected String run() throws Exception {
             // Read value from file with name 'name' and return its content.
             String name = step.getName();
+            if (!StringUtils.isAlphanumeric(name) || name.length() > Parameters.NameLen) {
+                throw new IllegalArgumentException("The '" + name + "' is not a valid gparams variable name");
+            }
+
             String filePath = Parameters.GParamDirectoryName + name;
 
             try {
