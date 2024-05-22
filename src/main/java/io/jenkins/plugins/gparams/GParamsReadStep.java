@@ -1,4 +1,4 @@
-package io.jenkins.plugins;
+package io.jenkins.plugins.gparams;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
