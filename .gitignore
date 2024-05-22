@@ -1,6 +1,5 @@
 target
 .github/
-.mvn/
 
 # mvn hpi:run
 work
