@@ -1,2 +1,9 @@
 _extends: .github
 tag-template: ${artifactId}-$NEXT_MINOR_VERSION
+
+template: |
+  ## What’s Changed
+
+  Bump io.jenkins.tools.bom:bom-2.426.x
+  Bump org.jenkins-ci.plugins:plugin from 4.78 to 4.83
+  Met the jenkins plugin requirements
