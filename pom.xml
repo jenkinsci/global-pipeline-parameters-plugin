@@ -26,10 +26,11 @@
     <url>https://github.com/${gitHubRepo}</url>
   </scm>
   <properties>
+    <jenkins.baseline>2.479</jenkins.baseline>
     <revision>1.0</revision>
     <changelist>-SNAPSHOT</changelist>
     <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
-    <jenkins.version>2.479.3</jenkins.version>
+    <jenkins.version>${jenkins.baseline}.3</jenkins.version>
     <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
     <spotless.check.skip>false</spotless.check.skip>
   </properties>
@@ -38,7 +39,7 @@
     <dependencies>
       <dependency>
         <groupId>io.jenkins.tools.bom</groupId>
-        <artifactId>bom-2.479.x</artifactId>
+        <artifactId>bom-${jenkins.baseline}.x</artifactId>
         <version>4488.v7fe26526366e</version>
         <type>pom</type>
         <scope>import</scope>
