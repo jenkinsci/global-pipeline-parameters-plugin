@@ -3,7 +3,6 @@ package io.jenkins.plugins.gparams;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.model.TaskListener;
-import io.jenkins.cli.shaded.org.apache.commons.lang.StringUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,6 +10,7 @@ import java.nio.channels.FileLock;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Set;
+import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.plugins.workflow.steps.*;
 import org.kohsuke.stapler.DataBoundConstructor;
 
