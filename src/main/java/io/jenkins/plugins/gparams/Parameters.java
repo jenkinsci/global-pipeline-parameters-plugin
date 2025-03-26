@@ -13,6 +13,6 @@ public class Parameters {
             Objects.requireNonNull(Jenkins.getInstanceOrNull()).getRootDir().getAbsolutePath();
     static final String GParamDirectoryName = JenkinsHomeDir + "/gparams/";
 
-    // Length of parameter 'name' in gread and gwrite steps
+    // Length of parameter 'name' in gpRead and gpWrite steps
     static final int NameLen = 128;
 }

@@ -2,6 +2,6 @@
 <?jelly escape-by-default='true'?>
 <div>
 This plugin allow any Pipeline Jobs store and read values common for all jobs. It add 2 steps in pipeline:
-- gread(name, value)
-- gwrite(name)
+- gpRead(name, value)
+- gpWrite(name)
 </div>

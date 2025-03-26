@@ -43,7 +43,7 @@ public class GParamsReadStep extends Step {
 
         @Override
         public String getFunctionName() {
-            return "gpread";
+            return "gpRead";
         }
 
         @NonNull

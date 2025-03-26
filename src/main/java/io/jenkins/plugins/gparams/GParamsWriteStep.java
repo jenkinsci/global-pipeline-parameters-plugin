@@ -51,7 +51,7 @@ public class GParamsWriteStep extends Step {
 
         @Override
         public String getFunctionName() {
-            return "gpwrite";
+            return "gpWrite";
         }
 
         @NonNull
