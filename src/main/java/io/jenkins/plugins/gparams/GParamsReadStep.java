@@ -10,7 +10,7 @@ import java.nio.channels.FileLock;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Set;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jenkinsci.plugins.workflow.steps.*;
 import org.kohsuke.stapler.DataBoundConstructor;
 
