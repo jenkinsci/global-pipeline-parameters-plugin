@@ -9,12 +9,4 @@ public class GParamsReadStepTest {
 
     @Rule
     public JenkinsRule jenkins = new JenkinsRule();
-
-    final String name = "Bobby";
-
-    @Test
-    public void testNothing() throws Exception {
-        FreeStyleProject project = jenkins.createFreeStyleProject();
-        project = jenkins.configRoundtrip(project);
-    }
 }
