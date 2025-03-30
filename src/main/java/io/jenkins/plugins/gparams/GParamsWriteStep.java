@@ -1,5 +1,6 @@
 package io.jenkins.plugins.gparams;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.model.TaskListener;
 import java.io.File;
@@ -13,7 +14,6 @@ import java.util.Objects;
 import java.util.Set;
 import org.jenkinsci.plugins.workflow.steps.*;
 import org.kohsuke.stapler.DataBoundConstructor;
-import org.springframework.lang.NonNull;
 
 /**
  * Write global parameter that is can be read any Jobs in JENKINS with by key 'name'
