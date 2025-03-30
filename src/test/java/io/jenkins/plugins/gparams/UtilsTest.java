@@ -10,10 +10,8 @@ public class UtilsTest {
     @Rule
     public JenkinsRule jenkins = new JenkinsRule();
 
-    final String name = "Bobby";
-
     @Test
-    public void testIsValidParameter() throws Exception {
+    public void testIsValidParameter() {
         Assert.assertTrue(Utils.isValidParameterName("mypar"));
         Assert.assertTrue(Utils.isValidParameterName("validlongparamter0000000000000" + "validlongparamter0000000000000"
                 + "validlongparamter0000000000000"
