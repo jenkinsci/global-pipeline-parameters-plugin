@@ -10,7 +10,6 @@ import java.nio.channels.FileLock;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Set;
-import org.apache.commons.lang3.StringUtils;
 import org.jenkinsci.plugins.workflow.steps.*;
 import org.kohsuke.stapler.DataBoundConstructor;
 
@@ -23,7 +22,7 @@ public class GParamsReadStep extends Step {
 
     @DataBoundConstructor
     public GParamsReadStep(String name) {
-        if (!StringUtils.isAlphanumeric(name) || name.length() > Parameters.NameLen) {
+        if (!Utils.isValidParameterName(name)) {
             throw new IllegalArgumentException("The '" + name + "' is not a valid gparams variable name");
         }
         this.name = name;
@@ -72,7 +71,7 @@ public class GParamsReadStep extends Step {
         protected String run() throws Exception {
             // Read value from file with name 'name' and return its content.
             String name = step.getName();
-            if (!StringUtils.isAlphanumeric(name) || name.length() > Parameters.NameLen) {
+            if (!Utils.isValidParameterName(name)) {
                 throw new IllegalArgumentException("The '" + name + "' is not a valid gparams variable name");
             }
 
