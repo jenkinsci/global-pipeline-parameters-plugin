@@ -9,7 +9,7 @@
   </parent>
   <groupId>io.jenkins.plugins</groupId>
   <artifactId>global-pipeline-parameters</artifactId>
-  <version>1.0</version>
+  <version>${revision}${changelist}</version>
   <packaging>hpi</packaging>
   <name>GParams</name>
   <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
@@ -27,7 +27,7 @@
   </scm>
   <properties>
     <jenkins.baseline>2.479</jenkins.baseline>
-    <revision>1.0</revision>
+    <revision>1.1</revision>
     <changelist>-SNAPSHOT</changelist>
     <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
     <jenkins.version>${jenkins.baseline}.3</jenkins.version>
