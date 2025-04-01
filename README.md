@@ -8,11 +8,11 @@ This plugin allow any Pipeline Jobs store and read values common for all jobs. I
 
 ## Getting started
 
-Use of the steps is very simple. For write value in global store add follow step:
-gpWrite name: 'myvalue', value: 'Some string'
+Use of the steps is very simple. For write value in global store add follow step:<br>
+`gpWrite name: 'myvalue', value: 'Some string'`
 
-For read this value add follow:
-def myval = gpRead name: 'myvalue'
+For read this value add follow:<br>
+`def myval = gpRead name: 'myvalue'`
 
 ## LICENSE
 

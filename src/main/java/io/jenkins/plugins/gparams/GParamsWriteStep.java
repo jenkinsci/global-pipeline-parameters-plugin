@@ -1,5 +1,6 @@
 package io.jenkins.plugins.gparams;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.model.TaskListener;
 import java.io.File;
@@ -11,10 +12,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
-import org.apache.commons.lang3.StringUtils;
 import org.jenkinsci.plugins.workflow.steps.*;
 import org.kohsuke.stapler.DataBoundConstructor;
-import org.springframework.lang.NonNull;
 
 /**
  * Write global parameter that is can be read any Jobs in JENKINS with by key 'name'
@@ -26,7 +25,7 @@ public class GParamsWriteStep extends Step {
 
     @DataBoundConstructor
     public GParamsWriteStep(String name, String value) {
-        if (!StringUtils.isAlphanumeric(name) || name.length() > Parameters.NameLen) {
+        if (!Utils.isValidParameterName(name)) {
             throw new IllegalArgumentException("The '" + name + "' is not a valid gparams variable name");
         }
         this.name = name;
@@ -80,7 +79,7 @@ public class GParamsWriteStep extends Step {
             String name = step.getName();
             String value = step.getValue();
 
-            if (!StringUtils.isAlphanumeric(name) || name.length() > Parameters.NameLen) {
+            if (!Utils.isValidParameterName(name)) {
                 throw new IllegalArgumentException("The '" + name + "' is not a valid gparams variable name");
             }
 
