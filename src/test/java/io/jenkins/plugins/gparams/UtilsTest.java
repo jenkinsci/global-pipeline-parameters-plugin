@@ -1,27 +1,34 @@
 package io.jenkins.plugins.gparams;
 
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-public class UtilsTest {
+@WithJenkins
+class UtilsTest {
 
-    @Rule
-    public JenkinsRule jenkins = new JenkinsRule();
+    private JenkinsRule j;
+
+    @BeforeEach
+    void beforeEach(JenkinsRule rule) {
+        j = rule;
+    }
 
     @Test
-    public void testIsValidParameter() {
-        Assert.assertTrue(Utils.isValidParameterName("mypar"));
-        Assert.assertTrue(Utils.isValidParameterName("validlongparamter0000000000000" + "validlongparamter0000000000000"
+    void testIsValidParameter() {
+        assertTrue(Utils.isValidParameterName("mypar"));
+        assertTrue(Utils.isValidParameterName("validlongparamter0000000000000" + "validlongparamter0000000000000"
                 + "validlongparamter0000000000000"
                 + "validlongparamter0000000000000" + "0123456"));
-        Assert.assertFalse(Utils.isValidParameterName(""));
-        Assert.assertFalse(Utils.isValidParameterName("adfn/"));
-        Assert.assertFalse(Utils.isValidParameterName("adfn.."));
-        Assert.assertFalse(
-                Utils.isValidParameterName("validlongparamter0000000000000" + "validlongparamter0000000000000"
-                        + "validlongparamter0000000000000"
-                        + "validlongparamter0000000000000" + "01234567"));
+        assertFalse(Utils.isValidParameterName(""));
+        assertFalse(Utils.isValidParameterName("adfn/"));
+        assertFalse(Utils.isValidParameterName("adfn.."));
+        assertFalse(Utils.isValidParameterName("validlongparamter0000000000000" + "validlongparamter0000000000000"
+                + "validlongparamter0000000000000"
+                + "validlongparamter0000000000000" + "01234567"));
     }
 }

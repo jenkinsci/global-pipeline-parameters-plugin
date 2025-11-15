@@ -1,10 +1,16 @@
 package io.jenkins.plugins.gparams;
 
-import org.junit.Rule;
+import org.junit.jupiter.api.BeforeEach;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-public class GParamsReadStepTest {
+@WithJenkins
+class GParamsReadStepTest {
 
-    @Rule
-    public JenkinsRule jenkins = new JenkinsRule();
+    private JenkinsRule j;
+
+    @BeforeEach
+    void beforeEach(JenkinsRule rule) {
+        j = rule;
+    }
 }
